@@ -12,12 +12,20 @@
             <option value="designer">Web Designer</option>
         </select>
 
+        <label class="block text-gray-400 text-sm tracking-wider font-semibold">Skills:</label>
+        <input @keyup.enter="addSkill" type="text" class="block border-b w-full text-gray-400 text-sm tracking-wider font-medium focus:outline-none" v-model="tempSkill">
+        
+
+        <div @dblclick="deleteSkill(skill)" class="inline-block mr-1 px-3 py-1 bg-gray-300 text-gray-400 hover:bg-gray-100 hover:text-gray-200 rounded-3xl text-center" v-for="skill in skills" :key="skill">
+           #{{ skill }}
+        </div>
+
         <div class="block space-x-4 text-gray-400 text-sm tracking-wider font-semibold flex items-center">
             <input v-model="terms" class="inline-block form-checkbox" type="checkbox" required>
             <label class="inline-block ">Accept terms and condition</label>
         </div>
+
     </form>
-    {{terms}}
 </template>
 
 <script>
@@ -27,8 +35,25 @@ export default {
             email: '',
             password: '',
             role: '',
-            terms: false
+            terms: false,
+            tempSkill: '',
+            skills: []
         }
-    }
+    },
+    methods: {
+        addSkill() {
+            if (this.tempSkill) {
+                if (!this.skills.includes(this.tempSkill)) {
+                    this.skills.push(this.tempSkill)
+                }
+                this.tempSkill = ''
+            }
+        },
+        deleteSkill(skill) {
+           this.skills = this.skills.filter((item) => {
+               return skill !== item
+           })
+        }
+    },
 }
 </script>
